@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elevyx | The Ecosystem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent: #89CFF0;
+            --bg: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --hub-width: 480px;
+            --corner-width: 380px;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* ── Modern Background ── */
+        .stage {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 40px;
+            padding: 100px 60px;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        .bg-rays {
+            position: fixed;
+            /* Stick to viewport */
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(137, 207, 240, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(137, 207, 240, 0.02) 0%, transparent 30%),
+                radial-gradient(circle at 100% 100%, rgba(137, 207, 240, 0.02) 0%, transparent 30%);
+            z-index: 0;
+        }
+
+        /* ── Floating Motion ── */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .card-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: float 6s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        /* ── Glass Morphism Layout ── */
+        .eco-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        .eco-card:hover {
+            border-color: rgba(137, 207, 240, 0.4);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 40px rgba(137, 207, 240, 0.15);
+        }
+
+        .hub-card {
+            width: var(--hub-width);
+        }
+
+        .side-card {
+            width: var(--corner-width);
+        }
+
+        /* ── Positioning ── */
+        .pos-tl {
+            grid-area: 1 / 1;
+            justify-self: start;
+            align-self: start;
+            animation-delay: -1s;
+        }
+
+        .pos-tr {
+            grid-area: 1 / 3;
+            justify-self: end;
+            align-self: start;
+            animation-delay: -2s;
+        }
+
+        .pos-c {
+            grid-area: 2 / 2;
+            animation-delay: 0s;
+            z-index: 20;
+        }
+
+        .pos-bl {
+            grid-area: 3 / 1;
+            justify-self: start;
+            align-self: end;
+            animation-delay: -3s;
+        }
+
+        .pos-br {
+            grid-area: 3 / 3;
+            justify-self: end;
+            align-self: end;
+            animation-delay: -4.5s;
+        }
+
+        /* ── High-End Ecosystem Header ────────────────────────── */
+        .eco-header {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .eco-header__title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            text-shadow: 0 0 20px rgba(137, 207, 240, 0.3);
+        }
+
+        .eco-header__status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* HUD Loading Bar */
+        .hud-loader {
+            width: 180px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            position: relative;
+            display: flex;
+            gap: 4px;
+            padding: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .hud-segment {
+            flex: 1;
+            height: 100%;
+            background: var(--accent);
+            opacity: 0.1;
+            animation: hudLoop 2s infinite;
+        }
+
+        .hud-segment:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .hud-segment:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .hud-segment:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .hud-segment:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes hudLoop {
+
+            0%,
+            100% {
+                opacity: 0.1;
+                filter: brightness(1);
+            }
+
+            50% {
+                opacity: 1;
+                filter: brightness(1.5) drop-shadow(0 0 5px var(--accent));
+            }
+        }
+
+        .eco-header__label {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        /* ── Content Details ── */
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: #000;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hub-card .video-container {
+            aspect-ratio: 16/9;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 0.4s ease;
+        }
+
+        .eco-card:hover video {
+            opacity: 1;
+        }
+
+        .card-body {
+            padding: 25px;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hub-card h3 {
+            font-size: 1rem;
+        }
+
+        /* ── Ghost Button ── */
+        .btn-explore {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-explore:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+            box-shadow: 0 0 25px var(--accent);
+        }
+
+        /* ── Connections Layer ── */
+        #network-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .line {
+            stroke: rgba(137, 207, 240, 0.1);
+            stroke-width: 1;
+            fill: none;
+            stroke-linecap: round;
+        }
+
+        /* The glowing core beam */
+        .line-core {
+            stroke: var(--accent);
+            stroke-width: 3;
+            fill: none;
+            opacity: 0.8;
+            filter: blur(2px) drop-shadow(0 0 15px var(--accent));
+        }
+
+        /* Fast moving electric charge */
+        .line-plasma {
+            stroke: var(--accent);
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 100 600;
+            filter: drop-shadow(0 0 10px var(--accent));
+            animation: energyFlow 2s linear infinite;
+        }
+
+        /* Swirling strands around the beam */
+        .line-swirl-1 {
+            stroke: #fff;
+            stroke-width: 1;
+            fill: none;
+            stroke-dasharray: 10 100;
+            opacity: 0.6;
+            animation: energyFlow 1s linear infinite;
+        }
+
+        .line-swirl-2 {
+            stroke: var(--accent);
+            stroke-width: 1.2;
+            fill: none;
+            stroke-dasharray: 20 180;
+            opacity: 0.5;
+            animation: energyFlow 1.8s linear infinite reverse;
+        }
+
+        .line-swirl-3 {
+            stroke: #fff;
+            stroke-width: 0.8;
+            fill: none;
+            stroke-dasharray: 5 250;
+            opacity: 0.3;
+            animation: energyFlow 0.8s linear infinite;
+        }
+
+        @keyframes energyFlow {
+            from {
+                stroke-dashoffset: 3000;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .spark {
+            fill: #fff;
+            filter: drop-shadow(0 0 15px var(--accent));
+        }
+
+        /* ── Navigation ── */
+        .nav-back {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-back:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-rays"></div>
+    <a href="index.html" class="nav-back">← RETURN</a>
+
+    <header class="eco-header">
+        <div class="eco-header__title">
+            Our Ecosystem
+            <div class="eco-header__status">
+                <div class="hud-loader">
+                    <div class="hud-segment"></div>
+                    <div class="hud-segment"></div>
+                    <div class="hud-segment"></div>
+                    <div class="hud-segment"></div>
+                    <div class="hud-segment"></div>
+                </div>
+                <span class="eco-header__label">Core Active</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="stage" id="stage">
+        <svg id="network-svg">
+            <path id="path-tl" class="line" d="" />
+            <path id="path-tr" class="line" d="" />
+            <path id="path-bl" class="line" d="" />
+            <path id="path-br" class="line" d="" />
+            <path id="core-tl" class="line-core" d="" />
+            <path id="core-tr" class="line-core" d="" />
+            <path id="core-bl" class="line-core" d="" />
+            <path id="core-br" class="line-core" d="" />
+            <path id="plasma-tl" class="line-plasma" d="" />
+            <path id="plasma-tr" class="line-plasma" d="" />
+            <path id="plasma-bl" class="line-plasma" d="" />
+            <path id="plasma-br" class="line-plasma" d="" />
+            <path id="swirl1-tl" class="line-swirl-1" d="" />
+            <path id="swirl1-tr" class="line-swirl-1" d="" />
+            <path id="swirl1-bl" class="line-swirl-1" d="" />
+            <path id="swirl1-br" class="line-swirl-1" d="" />
+            <!-- High-speed Swirl Strands (Bundle Layer 2) -->
+            <path id="swirl2-tl" class="line-swirl-2" d="" />
+            <path id="swirl2-tr" class="line-swirl-2" d="" />
+            <path id="swirl2-bl" class="line-swirl-2" d="" />
+            <path id="swirl2-br" class="line-swirl-2" d="" />
+
+            <!-- High-speed Swirl Strands (Bundle Layer 3) -->
+            <path id="swirl3-tl" class="line-swirl-3" d="" />
+            <path id="swirl3-tr" class="line-swirl-3" d="" />
+            <path id="swirl3-bl" class="line-swirl-3" d="" />
+            <path id="swirl3-br" class="line-swirl-3" d="" />
+            <circle class="spark" r="3">
+                <animateMotion dur="4s" repeatCount="indefinite" path="" id="anim-tl" />
+            </circle>
+            <circle class="spark" r="3">
+                <animateMotion dur="4s" repeatCount="indefinite" path="" id="anim-tr" />
+            </circle>
+            <circle class="spark" r="3">
+                <animateMotion dur="4s" repeatCount="indefinite" path="" id="anim-bl" />
+            </circle>
+            <circle class="spark" r="3">
+                <animateMotion dur="4s" repeatCount="indefinite" path="" id="anim-br" />
+            </circle>
+        </svg>
+        <!-- Top Left -->
+        <div class="card-wrapper pos-tl" id="wrap-tl">
+            <div class="eco-card side-card" id="card-tl">
+                <div class="video-container"><video src="eco-tl.mp4" autoplay loop muted playsinline></video></div>
+                <div class="card-body">
+                    <h3>Digital Storefront</h3> <a href="storefront.html" class="btn-explore">EXPLORE</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Right -->
+        <div class="card-wrapper pos-tr" id="wrap-tr">
+            <div class="eco-card side-card" id="card-tr">
+                <div class="video-container"><video src="eco-tr.mp4" autoplay loop muted playsinline></video></div>
+                <div class="card-body">
+                    <h3>AI Lead Chatbot</h3> <a href="chatbot.html" class="btn-explore">EXPLORE</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Hub -->
+        <div class="card-wrapper pos-c" id="wrap-c">
+            <div class="eco-card hub-card" id="card-c">
+                <div class="video-container"><video src="eco-center.mp4" autoplay loop muted playsinline></video></div>
+                <div class="card-body">
+                    <h3>Real Estate Automation</h3> <a href="real-estate.html" class="btn-explore">EXPLORE</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Left -->
+        <div class="card-wrapper pos-bl" id="wrap-bl">
+            <div class="eco-card side-card" id="card-bl">
+                <div class="video-container"><video src="eco-bl.mp4" autoplay loop muted playsinline></video></div>
+                <div class="card-body">
+                    <h3>Custom Workflows</h3> <a href="workflows.html" class="btn-explore">EXPLORE</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Right -->
+        <div class="card-wrapper pos-br" id="wrap-br">
+            <div class="eco-card side-card" id="card-br">
+                <div class="video-container"><video src="eco-br.mp4" autoplay loop muted playsinline></video></div>
+                <div class="card-body">
+                    <h3>Content Marketing</h3> <a href="marketing.html" class="btn-explore">EXPLORE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cards = {
+            c: document.getElementById('card-c'),
+            tl: document.getElementById('card-tl'),
+            tr: document.getElementById('card-tr'),
+            bl: document.getElementById('card-bl'),
+            br: document.getElementById('card-br')
+        };
+
+        const paths = {
+            tl: [document.getElementById('path-tl'), document.getElementById('core-tl'), document.getElementById('plasma-tl'), document.getElementById('swirl1-tl'), document.getElementById('swirl2-tl'), document.getElementById('swirl3-tl')],
+            tr: [document.getElementById('path-tr'), document.getElementById('core-tr'), document.getElementById('plasma-tr'), document.getElementById('swirl1-tr'), document.getElementById('swirl2-tr'), document.getElementById('swirl3-tr')],
+            bl: [document.getElementById('path-bl'), document.getElementById('core-bl'), document.getElementById('plasma-bl'), document.getElementById('swirl1-bl'), document.getElementById('swirl2-bl'), document.getElementById('swirl3-bl')],
+            br: [document.getElementById('path-br'), document.getElementById('core-br'), document.getElementById('plasma-br'), document.getElementById('swirl1-br'), document.getElementById('swirl2-br'), document.getElementById('swirl3-br')]
+        };
+        const anims = { tl: document.getElementById('anim-tl'), tr: document.getElementById('anim-tr'), bl: document.getElementById('anim-bl'), br: document.getElementById('anim-br') };
+
+        function updateConnections() {
+            const stage = document.querySelector('.stage');
+            if (!stage) return;
+            const stageRect = stage.getBoundingClientRect();
+            // Since SVG is now inside stage, it shares the same internal coordinate system
+            const h = cards.c.getBoundingClientRect();
+
+            const hub = {
+                tl: { x: h.left - stageRect.left, y: h.top - stageRect.top },
+                tr: { x: h.right - stageRect.left, y: h.top - stageRect.top },
+                bl: { x: h.left - stageRect.left, y: h.bottom - stageRect.top },
+                br: { x: h.right - stageRect.left, y: h.bottom - stageRect.top }
+            };
+
+            for (let key in paths) {
+                const c = cards[key].getBoundingClientRect();
+                let tx, ty;
+                if (key === 'tl') { tx = (c.right - stageRect.left); ty = (c.bottom - stageRect.top); }
+                if (key === 'tr') { tx = (c.left - stageRect.left); ty = (c.bottom - stageRect.top); }
+                if (key === 'bl') { tx = (c.right - stageRect.left); ty = (c.top - stageRect.top); }
+                if (key === 'br') { tx = (c.left - stageRect.left); ty = (c.top - stageRect.top); }
+
+                const d = `M ${hub[key].x} ${hub[key].y} L ${tx} ${ty}`;
+                paths[key].forEach(p => p.setAttribute('d', d));
+                anims[key].setAttribute('path', d);
+            }
+            requestAnimationFrame(updateConnections);
+        }
+
+        window.addEventListener('load', updateConnections);
+        window.addEventListener('resize', updateConnections);
+    </script>
+</body>
+
+</html>

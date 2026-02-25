@@ -1,0 +1,189 @@
+/* ═══════════════════════════════════════════════════════════
+   Tech Stack Marquee & 3D Cube Styles
+   ─────────────────────────────────────────────────────────
+   • Infinite CSS Marquee
+   • 3D interactable cube modal
+═══════════════════════════════════════════════════════════ */
+
+.tech-section {
+    background: #000;
+    padding: 80px 0;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    /* Stay above glow */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tech-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 50px;
+    letter-spacing: 0.1em;
+}
+
+.tech-subtitle {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #89CFF0;
+    /* Branded Sky Blue */
+    opacity: 1;
+    /* Maximum brightness */
+    text-shadow: 0 0 12px rgba(137, 207, 240, 0.4);
+    margin-top: 40px;
+    text-align: center;
+    max-width: 80%;
+}
+
+/* ── Marquee ── */
+.marquee-container {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.marquee-content {
+    display: flex;
+    gap: 30px;
+    animation: marquee-scroll 35s linear infinite;
+}
+
+@keyframes marquee-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.tech-square {
+    width: 150px;
+    height: 150px;
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    padding: 20px;
+    user-select: none;
+}
+
+.tech-square:hover {
+    transform: scale(1.05);
+}
+
+.tech-square img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* ── Modal & 3D Cube ── */
+.tech-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.tech-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.scene {
+    width: 400px;
+    height: 400px;
+    perspective: 1200px;
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    cursor: grab;
+    transition: transform 0.1s linear;
+}
+
+.cube:active {
+    cursor: grabbing;
+}
+
+.cube-face {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: #fff;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    backface-visibility: visible;
+    border-radius: 40px;
+    /* Rounded edges */
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.05);
+}
+
+.cube-face--front {
+    transform: rotateY(0deg) translateZ(200px);
+}
+
+.cube-face--right {
+    transform: rotateY(90deg) translateZ(200px);
+}
+
+.cube-face--back {
+    transform: rotateY(180deg) translateZ(200px);
+}
+
+.cube-face--left {
+    transform: rotateY(-90deg) translateZ(200px);
+}
+
+.cube-face--top {
+    transform: rotateX(90deg) translateZ(200px);
+}
+
+.cube-face--bottom {
+    transform: rotateX(-90deg) translateZ(200px);
+}
+
+.cube-face img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.close-modal {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    background: none;
+    z-index: 10001;
+}

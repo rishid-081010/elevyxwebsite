@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevyx | Digital Storefront Engine</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP for Anti-Gravity Physics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --accent: #00FFFF;
+            --magenta: #FF00FF;
+            --violet: #4B0082;
+            --bg-dark: #020205;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ── Parallax Background Decor ── */
+        .stars {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ── Navigation ── */
+        .nav-back {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 100;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .nav-back:hover {
+            opacity: 1;
+        }
+
+        /* ── Section Container ── */
+        section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 10%;
+            overflow: hidden;
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4rem, 12vw, 10rem);
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            background: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .intro-text {
+            max-width: 800px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            margin: 0 auto;
+        }
+
+        /* ── About Section (Glassmorphism Card) ── */
+        .about-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 60px;
+            border-radius: 30px;
+            max-width: 900px;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .about-card p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+        }
+
+        .about-card strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* ── Services Section ── */
+        .services-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .service-point {
+            font-size: clamp(1.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin: 1rem 0;
+            white-space: nowrap;
+            opacity: 0;
+            color: var(--accent);
+        }
+
+        /* ── Visual Proof (Engine) ── */
+        .n8n-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .n8n-img {
+            max-width: 1200px;
+            width: 100%;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+            border-radius: 12px;
+            opacity: 0.9;
+        }
+
+        /* ── Closing ── */
+        .closing {
+            text-align: center;
+            padding-bottom: 200px;
+        }
+
+        .closing p {
+            max-width: 800px;
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        /* ── Sticky CTA ── */
+        .sticky-cta {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+        }
+
+        .audit-btn {
+            background: #fff;
+            color: #000;
+            padding: 18px 60px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            display: inline-block;
+        }
+
+        .audit-btn:hover {
+            transform: scale(1.1);
+            background: var(--accent);
+            box-shadow: 0 0 50px var(--accent);
+        }
+
+        /* ── Parallax Arrows ── */
+        .parallax-arrow {
+            position: absolute;
+            font-size: clamp(8rem, 20vw, 20rem);
+            color: var(--accent);
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: -1;
+            font-family: 'Bebas Neue', sans-serif;
+            line-height: 1;
+            filter: blur(2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stars"></div>
+
+    <!-- High-Magnitude parallax arrows -->
+    <div class="parallax-arrow" style="top: 15%; left: 5%;">↑</div>
+    <div class="parallax-arrow" style="top: 45%; right: 5%;">↑</div>
+    <div class="parallax-arrow" style="top: 75%; left: 8%;">↑</div>
+    <div class="parallax-arrow" style="top: 30%; right: 15%;">↑</div>
+    <div class="parallax-arrow" style="top: 85%; right: 10%;">↑</div>
+
+    <a href="ecosystem.html" class="nav-back">← ECOSYSTEM</a>
+
+    <div class="sticky-cta">
+        <a href="#" class="audit-btn">ACTIVATE</a>
+    </div>
+
+    <!-- 1. Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>We Engineer<br>The Digital Salesman.</h1>
+            <p class="intro-text">
+                Your website shouldn't just sit there and look pretty. We build Autonomous Web Engines that qualify
+                leads, handle objections at 2 AM, and close deals while you sleep.
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. About -->
+    <section class="about" id="about">
+        <div class="about-card">
+            <p><strong>We didn’t start with AI.</strong> We started by watching business owners treat their websites
+                like static brochures that do nothing but sit there and look pretty.</p>
+            <p>We saw the same leak everywhere: High-quality traffic hitting a page, finding no way to engage, and
+                leaving forever. Tens of thousands spent on development for a site that required a human to manually
+                answer every question and book every call. The bottleneck wasn't the design; it was the lack of brains
+                behind the interface.</p>
+            <p>The problem was that the website was a dead end, not a salesperson. It couldn't qualify a lead, it
+                couldn't handle objections at 2 AM, and it certainly couldn't close a deal.</p>
+            <p>That’s when we stopped just "designing sites" and <strong>started building Autonomous Web
+                    Engines.</strong> Now, our websites don't just sit there—they work.</p>
+        </div>
+    </section>
+
+    <!-- 3. Services -->
+    <section class="services" id="services">
+        <div class="services-header">
+            <h2>The New Standard of Conversion.</h2>
+        </div>
+        <p style="text-align: center; margin-bottom: 3rem; color: rgba(255,255,255,0.5);">Now our systems handle the
+            entire conversion process directly on your domain.</p>
+
+        <div class="service-point" data-side="left">THE AI CONCIERGE.</div>
+        <div class="service-point" data-side="right">THE AUTONOMOUS BOOKER.</div>
+        <div class="service-point" data-side="left">DYNAMIC PERSONALIZATION.</div>
+        <div class="service-point" data-side="right">INSTANT DATA SYNC.</div>
+
+        <p style="margin-top: 3rem; font-weight: 300; font-size: 1.2rem; opacity: 0.7;">36% lift in site-to-lead
+            conversion because your website never sleeps.</p>
+    </section>
+
+    <!-- 4. Visual Proof -->
+    <section class="proof" id="proof">
+        <div class="n8n-container">
+            <img src="website.jpg" alt="Autonomous Web Engine Workflow" class="n8n-img">
+        </div>
+    </section>
+
+    <!-- 5. Closing -->
+    <section class="closing">
+        <p>
+            I work with business owners who are done watching high-quality traffic leak through a static brochure. If
+            you're ready to turn your domain into a 24/7 revenue engine, we should talk.
+        </p>
+        <p style="color: var(--accent); font-weight: 700; font-size: 1.8rem;">
+            Message me "ACTIVATE" and I'll show you how to turn your visitors into customers automatically.
+        </p>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Hero Parallax (1.5x speed)
+        gsap.to(".hero-content", {
+            yPercent: -50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // 2. About Card Rotation
+        gsap.to(".about-card", {
+            rotateY: 5,
+            y: -100,
+            scrollTrigger: {
+                trigger: "#about",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1
+            }
+        });
+
+        // 3. Service Points staggered "flying in"
+        document.querySelectorAll('.service-point').forEach((point) => {
+            const side = point.dataset.side;
+            const xVal = side === 'left' ? -200 : 200;
+
+            gsap.fromTo(point,
+                { x: xVal, opacity: 0 },
+                {
+                    x: 0,
+                    opacity: 1,
+                    scrollTrigger: {
+                        trigger: point,
+                        start: "top 85%",
+                        end: "top 60%",
+                        scrub: 1
+                    }
+                }
+            );
+        });
+
+        // 4. Image Deep Parallax (moves slower)
+        gsap.fromTo(".n8n-img",
+            { y: 150 },
+            {
+                y: -150,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#proof",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 0.5
+                }
+            }
+        );
+
+        // Subtle background star drift
+        gsap.to(".stars", {
+            backgroundPosition: "0px 100px",
+            ease: "none",
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: true
+            }
+        });
+
+        // High-Magnitude Parallax Arrows
+        document.querySelectorAll('.parallax-arrow').forEach((arrow, i) => {
+            gsap.to(arrow, {
+                y: -1500 - (i * 300),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "body",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 0.5
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

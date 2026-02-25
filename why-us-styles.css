@@ -1,0 +1,180 @@
+/* ═══════════════════════════════════════════════════════════
+   Why Choose Us Section — Parallax & Wireframes
+   ─────────────────────────────────────────────────────────
+   • Deep Obsidian Background
+   • Multi-layered parallax (Text 0.4, Image 0.7, BG 0.2)
+   • 3D Glowing Wireframes
+═══════════════════════════════════════════════════════════ */
+
+.why-us {
+    background: #050505;
+    position: relative;
+    padding: 100px 0 250px;
+    /* More bottom padding for scroll room */
+    overflow: hidden;
+    z-index: 1;
+}
+
+.why-us__header {
+    text-align: center;
+    margin-bottom: 150px;
+    position: relative;
+    z-index: 10;
+}
+
+.why-us__header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 6rem;
+    color: #ffffff;
+    letter-spacing: 0.1em;
+    margin: 0;
+    text-shadow: 0 0 30px rgba(137, 207, 240, 0.2);
+}
+
+.why-us__header span {
+    color: #89CFF0;
+}
+
+/* ── Parallax Background Arrows ── */
+.why-us__arrow {
+    position: absolute;
+    color: #89CFF0;
+    /* Branded Sky Blue */
+    font-weight: 800;
+    text-shadow: 0 0 30px rgba(137, 207, 240, 0.8), 0 0 10px rgba(137, 207, 240, 0.4);
+    pointer-events: none;
+    z-index: -1;
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1;
+    will-change: transform;
+}
+
+/* Decoration Floating Shapes */
+.why-us__deco {
+    position: absolute;
+    border: 1px solid rgba(137, 207, 240, 0.2);
+    pointer-events: none;
+    will-change: transform;
+}
+
+.why-us__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.why-us__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 250px;
+    /* Reduced from 350px for tighter feel */
+    gap: 80px;
+    /* Reduced from 120px to bring text closer to video */
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: opacity 1.2s ease;
+}
+
+.why-us__row.is-visible {
+    opacity: 1;
+}
+
+.why-us__row--reversed {
+    flex-direction: row-reverse;
+}
+
+/* ── Text Content ── */
+.why-us__text {
+    flex: 1;
+    will-change: transform;
+    padding-left: 60px;
+    /* Pull text inside from the edge */
+}
+
+.why-us__text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: #89CFF0;
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+}
+
+.why-us__text p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #ffffff;
+    opacity: 0.9;
+    max-width: 500px;
+}
+
+/* ── Media Containers ── */
+.why-us__image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    will-change: transform;
+}
+
+/* ── Video Card Styling ── */
+.why-us__video-card {
+    width: 600px;
+    /* Slightly wider to feel like a premium tile */
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid rgba(137, 207, 240, 0.4);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(137, 207, 240, 0.2);
+    background: #000;
+}
+
+.why-us__row-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Inner glow core */
+.wireframe-box__core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(137, 207, 240, 0.6) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(40px);
+}
+
+@keyframes floatAnim {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@media (max-width: 900px) {
+    .why-us__row {
+        flex-direction: column !important;
+        text-align: center;
+        margin-bottom: 120px;
+    }
+
+    .why-us__text p {
+        margin: 0 auto;
+    }
+
+    .wireframe-box {
+        width: 300px;
+        height: 300px;
+    }
+}
