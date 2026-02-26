@@ -20,7 +20,7 @@
         canvas.style.left = '0';
         canvas.style.width = '100vw';
         canvas.style.height = '100vh';
-        canvas.style.zIndex = '0'; // Near fluid and glow
+        canvas.style.zIndex = '0';
         canvas.style.pointerEvents = 'none';
         canvas.style.background = 'transparent';
     }
@@ -34,11 +34,14 @@
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
             this.size = Math.random() * 1.5 + 0.3;
-            this.opacity = Math.random() * 0.5 + 0.1;
+            this.baseOpacity = Math.random() * 0.4 + 0.1;
+            this.opacity = this.baseOpacity;
+            this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+            this.twinkleDir = 1;
 
             // Slow, drifting velocity
-            this.vx = (Math.random() - 0.5) * 0.2;
-            this.vy = (Math.random() - 0.5) * 0.2;
+            this.vx = (Math.random() - 0.5) * 0.15;
+            this.vy = (Math.random() - 0.5) * 0.15;
         }
 
         draw() {
@@ -53,6 +56,12 @@
             this.x += this.vx;
             this.y += this.vy;
 
+            // Twinkle Logic
+            this.opacity += this.twinkleSpeed * this.twinkleDir;
+            if (this.opacity > this.baseOpacity + 0.2 || this.opacity < this.baseOpacity) {
+                this.twinkleDir *= -1;
+            }
+
             // Simple wrapping
             if (this.x < 0) this.x = canvas.width;
             if (this.x > canvas.width) this.x = 0;
@@ -63,7 +72,7 @@
 
     function createParticles() {
         particles = [];
-        const count = 120; // Perfect density for nebula feel
+        const count = 250; // Denser starfield
         for (let i = 0; i < count; i++) {
             particles.push(new Particle());
         }
