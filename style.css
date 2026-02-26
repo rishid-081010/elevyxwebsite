@@ -8,24 +8,24 @@
 ═══════════════════════════════════════════════════════════ */
 
 #cursor-glow {
-   /* Fixed to the viewport — clientX/Y keeps it correctly
+  /* Fixed to the viewport — clientX/Y keeps it correctly
      positioned regardless of how far the user has scrolled. */
-   position: fixed;
-   inset: 0;
-   /* covers full viewport */
-   width: 100vw;
-   height: 100vh;
+  position: fixed;
+  inset: 0;
+  /* covers full viewport */
+  width: 100vw;
+  height: 100vh;
 
-   /* Behind EVERYTHING — never covers text or buttons */
-   z-index: -1;
+  /* Behind EVERYTHING — never covers text or buttons */
+  z-index: 0;
 
-   /* Invisible to mouse events */
-   pointer-events: none;
+  /* Invisible to mouse events */
+  pointer-events: none;
 
-   /* JS writes a radial-gradient into background each frame */
-   background: transparent;
+  /* JS writes a radial-gradient into background each frame */
+  background: transparent;
 
-   /* Optional: very slight CSS transition as a fallback smoothing
+  /* Optional: very slight CSS transition as a fallback smoothing
      layer between rAF frames on slow machines              */
-   will-change: background;
+  will-change: background;
 }

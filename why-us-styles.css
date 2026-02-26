@@ -71,7 +71,8 @@
     /* Reduced from 350px for tighter feel */
     gap: 80px;
     /* Reduced from 120px to bring text closer to video */
-    opacity: 0;
+    opacity: 1;
+    /* Forced visibility */
     will-change: transform, opacity;
     transition: opacity 1.2s ease;
 }
