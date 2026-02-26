@@ -208,8 +208,9 @@
       }
 
       .main-heading {
-        font-size: 3.8rem;
-        line-height: 1;
+        font-size: 2.8rem;
+        /* Scaled down to prevent exiting screen */
+        line-height: 1.1;
         margin-bottom: 2rem;
       }
 
@@ -264,6 +265,19 @@
       height: 100%;
       object-fit: cover;
       opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+      .video-section {
+        height: 100dvh;
+      }
+
+      .hero-video {
+        object-fit: contain;
+        /* Prevent the animation from exiting the screen on phone */
+        height: auto;
+        max-height: 100dvh;
+      }
     }
 
     /* ─── Content Sections ─────────────────────────────────────── */
