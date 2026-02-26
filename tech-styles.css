@@ -251,5 +251,31 @@
         width: 280px;
         height: 280px;
         padding: 20px;
+        border-radius: 20px;
+    }
+
+    /* Recalibrate translateZ for 280px cube (half is 140px) */
+    .cube-face--front {
+        transform: rotateY(0deg) translateZ(140px);
+    }
+
+    .cube-face--right {
+        transform: rotateY(90deg) translateZ(140px);
+    }
+
+    .cube-face--back {
+        transform: rotateY(180deg) translateZ(140px);
+    }
+
+    .cube-face--left {
+        transform: rotateY(-90deg) translateZ(140px);
+    }
+
+    .cube-face--top {
+        transform: rotateX(90deg) translateZ(140px);
+    }
+
+    .cube-face--bottom {
+        transform: rotateX(-90deg) translateZ(140px);
     }
 }
