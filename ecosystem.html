@@ -390,6 +390,65 @@
         .nav-back:hover {
             opacity: 1;
         }
+
+        @media (max-width: 1024px) {
+            .stage {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 60px;
+                padding: 180px 20px 100px;
+            }
+
+            #network-svg {
+                display: none;
+            }
+
+            .hub-card,
+            .side-card {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .card-wrapper {
+                animation: none;
+                /* Static blocks for easier mobile scroll */
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .eco-header {
+                top: 40px;
+            }
+
+            .eco-header__title {
+                font-size: 0.9rem;
+                gap: 15px;
+                letter-spacing: 0.3em;
+            }
+
+            .hud-loader {
+                width: 100px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-back {
+                top: 20px;
+                left: 20px;
+                font-size: 0.65rem;
+            }
+
+            .eco-header {
+                top: 30px;
+            }
+
+            .eco-header__status {
+                display: none;
+                /* Hide status bars for maximum clarity on small phones */
+            }
+        }
     </style>
 </head>
 
