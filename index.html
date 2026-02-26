@@ -260,11 +260,26 @@
       background: #000;
     }
 
+    .video-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 250px;
+      /* Dramatic blend height */
+      background: linear-gradient(to bottom, transparent, var(--bg-dark));
+      pointer-events: none;
+      z-index: 2;
+    }
+
     .hero-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       opacity: 0.8;
+      mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
     }
 
     @media (max-width: 600px) {
@@ -277,6 +292,8 @@
         /* Prevent the animation from exiting the screen on phone */
         height: auto;
         max-height: 100dvh;
+        mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
       }
     }
 
