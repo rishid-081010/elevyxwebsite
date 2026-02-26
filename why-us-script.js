@@ -16,15 +16,7 @@
 
     rows.forEach(row => observer.observe(row));
 
-    // ── Mouse depth effect for wireframes (optional polish) ──
-    window.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 20;
-        const y = (e.clientY / window.innerHeight - 0.5) * 20;
 
-        document.querySelectorAll('.wireframe-box').forEach(box => {
-            box.style.transform = `rotateX(${-y}deg) rotateY(${x}deg)`;
-        });
-    });
 
     // ── Strong Parallax Scroll Logic ──
     window.addEventListener('scroll', () => {
