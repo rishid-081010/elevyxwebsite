@@ -43,7 +43,7 @@
             deco.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.05}deg)`;
         });
 
-        // 3. Rows (Text vs Image)
+        // 3. Rows (Text Parallax ONLY)
         rows.forEach((row, index) => {
             const rect = row.getBoundingClientRect();
             const centerOffset = (rect.top + rect.height / 2) - vh / 2;
@@ -53,19 +53,15 @@
                 const text = row.querySelector('.why-us__text');
                 const image = row.querySelector('.why-us__image-container');
 
-                // Stronger Multipliers
-                // Text: moves slightly slower than scroll (parallax up)
+                // Text: subtle drift
                 if (text) {
-                    const tY = centerOffset * 0.15;
-                    const tX = index % 2 === 0 ? centerOffset * 0.02 : -centerOffset * 0.02;
-                    text.style.transform = `translate(${tX}px, ${tY}px)`;
+                    const tY = centerOffset * 0.1;
+                    text.style.transform = `translateY(${tY}px)`;
                 }
 
-                // Image: moves faster (parallax down/up deeper)
+                // Image/Video: Locked to its grid position
                 if (image) {
-                    const iY = centerOffset * 0.35;
-                    const iX = index % 2 === 0 ? -centerOffset * 0.05 : centerOffset * 0.05;
-                    image.style.transform = `translate(${iX}px, ${iY}px)`;
+                    image.style.transform = 'none';
                 }
             }
         });

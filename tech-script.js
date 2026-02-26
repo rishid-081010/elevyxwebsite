@@ -12,20 +12,21 @@
     let startX, startY;
     let rotateX = -25, rotateY = 32;
 
-    // Open Modal
-    squares.forEach(square => {
-        square.addEventListener('click', () => {
-            const imgSrc = square.querySelector('img').src;
-            // Set source for ALL 6 faces
-            const cubeImages = modal.querySelectorAll('.cube-img');
-            cubeImages.forEach(img => img.src = imgSrc);
+    // Event Delegation for squares (handles multiple rows)
+    document.addEventListener('click', (e) => {
+        const square = e.target.closest('.tech-square');
+        if (!square) return;
 
-            modal.classList.add('active');
-            // Initial position
-            rotateX = -25;
-            rotateY = 32;
-            updateCube();
-        });
+        const imgSrc = square.querySelector('img').src;
+        // Set source for ALL 6 faces
+        const cubeImages = modal.querySelectorAll('.cube-img');
+        cubeImages.forEach(img => img.src = imgSrc);
+
+        modal.classList.add('active');
+        // Initial position
+        rotateX = -25;
+        rotateY = 32;
+        updateCube();
     });
 
     // Close Modal
